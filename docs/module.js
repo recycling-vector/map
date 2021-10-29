@@ -98,8 +98,8 @@ for(let i = 1; i < csv.length; i++) {
     geometry: {
       type: 'Point',
       coordinates: [
-        parseFloat(csv[i][3]),
-        parseFloat(csv[i][4])
+        parseFloat(csv[i][4]),
+        parseFloat(csv[i][3])
       ]
     },
     properties: {
@@ -107,6 +107,7 @@ for(let i = 1; i < csv.length; i++) {
     }
   })
 }
+console.log(geojson)
 
 const main = async () => {
   if (typeof maplibregl == 'undefined') {

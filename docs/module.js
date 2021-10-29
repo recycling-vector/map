@@ -39,26 +39,23 @@ const showMap = async (texts) => {
     trackUserLocation: true
   }))
 
-console.log(csv)
 
-/*
   let voice = null
   for(let v of speechSynthesis.getVoices()) {
     if (v.name == 'Kyoko') voice = v
   }
-*/
 
   map.on('load', () => {
-/*
-    map.on('click', 'hclulc', (e) => {
+    map.on('click', 'places', (e) => {
+      let idx = e.features[0].properties.idx
       let u = new SpeechSynthesisUtterance()
       u.lang = 'ja-JP'
-      u.text = 'HCLULC'
+      u.text = "ここは、" + csv[idx][0] + "です。住所は、" + 
+        csv[idx][2] + "です。"
       if (voice) u.voice = voice
       speechSynthesis.cancel()
       speechSynthesis.speak(u)
     })
-*/
     map.addSource('places', {
       type: 'geojson',
       data: geojson

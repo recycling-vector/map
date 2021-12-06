@@ -48,16 +48,23 @@ const showMap = async () => {
   }
 
   map.on('load', () => {
+    const start = 5
+    const length = 15
+    const items = csv[0].slice(start, start + length)
     const popup = new maplibregl.Popup({
       closeButton: false, closeOnClick: false
     })
-    let text = ''
     map.on('click', 'places', (e) => {
       let idx = e.features[0].properties.idx
       let u = new SpeechSynthesisUtterance()
       u.lang = 'ja-JP'
-      u.text = text
-        csv[idx][2] + "です。"
+      const collectedItems = items.filter(
+        item => csv[idx][items.indexOf(item)] === 't'
+      )
+      u.text = csv[idx][0] + '。' +
+        csv[idx][2] + '。' + (collectedItems.length ? 
+        collectedItems.join('、') + '' :
+        '回収はありません。') 
       if (voice) u.voice = voice
       speechSynthesis.cancel()
       speechSynthesis.speak(u)
@@ -87,9 +94,6 @@ const showMap = async () => {
         'text-color': '#0f0'
       }
     })
-    const start = 5
-    const length = 14
-    const items = csv[0].slice(start, start + length)
     map.on('mouseenter', 'places', e => {
       map.getCanvas().style.cursor = 'pointer'
       const coordinates = 
@@ -102,13 +106,15 @@ const showMap = async () => {
       const collectedItems = items.filter(
         item => csv[idx][items.indexOf(item)] === 't'
       )
-      text = 'ここは、' + csv[idx][0] + 'です。住所は、' +
-	csv[idx][2] + 'です。' + 
-        (collectedItems.length ? 
-        collectedItems.join('、') + 'を回収しています。' :
-        '回収はありません。') + 
-	(csv[idx][19] === 't' ? 'きずなBOXがあります。' : '')
-      const html = `<h3>${csv[idx][0]}</h3>${text}`
+      const html = 
+        `<h3>${csv[idx][0]}</h3>${csv[idx][2]}` +
+        (
+	  collectedItems.length != 0 ?
+	  '<ul>' + 
+	  collectedItems.map(item => `<li>${item}</li>`).join('') +
+          '</ul>' :
+          '<p>回収はありません</p>'
+        )
       popup.setLngLat(coordinates).setHTML(html).addTo(map)
     })
     map.on('mouseleave', 'places', () => {

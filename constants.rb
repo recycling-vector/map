@@ -5,3 +5,6 @@ BASE_STYLE_URL = 'https://gsi-cyberjapan.github.io/gsivectortile-3d-like-buildin
 
 BACKGROUND_COLOR = '#fff'
 
+# MapLibre GL JS のバージョン
+# See Also: https://maplibre.org/maplibre-gl-js-docs/api/ 
+LIBRE_VERSION = '1.15.2'

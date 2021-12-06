@@ -1,6 +1,6 @@
 import {
   CSV
-} from "CSV.js"
+} from "./CSV.js"
 
 const style = href => {
   const e = document.createElement('link')

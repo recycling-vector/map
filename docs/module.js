@@ -124,7 +124,7 @@ const showMap = async () => {
   })
 }
 
-const csv = await CSV.fetch('data.csv')
+const csv = await CSV.fetch('data-selected.csv')
 const geojson = {
   type: 'FeatureCollection',
   features: []
